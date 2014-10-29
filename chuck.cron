@@ -1,0 +1,2 @@
+#minute hour day month weekday [username] command
+*/5 * * * * root /root/scripts/R_Chuck_Norris/chuck.sh restartifneeded >> /tmp/last_restartifneeded.log
