@@ -3,9 +3,9 @@
 export LANG="fr_FR.UTF-8"
 cd $(dirname $0)
 dir=$(pwd)
-script=$dir/Marvin.ircBot.py
+script=$dir/chuck.ircBot.py
 python=python3
-log=$dir/Marvin.log
+log=$dir/chuck.log
 commande="$python $script"
 nbLigneLog=$(wc -l $log 2>/dev/null| sed -e 's/ .*//')
 ligneWarning=5

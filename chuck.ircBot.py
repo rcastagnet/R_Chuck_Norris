@@ -26,7 +26,7 @@ class Bot(irc.bot.SingleServerIRCBot):
     self.lastAntiSpam = 0
   def getConfig(self):
     path = os.getcwd()
-    self.configfile = path + "/Marvin.cfg"
+    self.configfile = path + "/chuck.cfg"
     self.config = configparser.ConfigParser()
     self.config.read(self.configfile)
     self.conf = dict()
