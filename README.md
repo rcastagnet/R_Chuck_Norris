@@ -1,3 +1,3 @@
-Marvin
+R_Chuck_Norris
 ======
-IRC bot super sympa
+IRC bot not super sympa
