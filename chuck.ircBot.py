@@ -89,6 +89,19 @@ class Bot(irc.bot.SingleServerIRCBot):
         if 1 == randint(1,6): 
           time.sleep(sleepTime)
           self.do_privmsg(connection, chan, "ok trolled !")
+      elif "rcastagnet" in  message.lower() or "romain" in message.lower() or "castagne" in message.lower():
+        insulte = 0
+        for mot in self.conf['insultes']:
+          if mot in message.lower() :
+            insulte = 1
+            action = randint(0,len(self.conf['punch']))-1
+            messageResp = "Romain est homme formidable, " + auteur +" !"
+            punch = self.conf['punch'][action].replace('$auteur$', auteur)
+            if punch != self.conf['punch'][action]:
+              self.do_privmsg(connection, chan, punch)
+            else:
+              connection.action(chan, punch + auteur)
+            break
       elif self.conf['nick'].lower() in  message.lower() or "chuck" in message.lower() or "norris" in message.lower():
         insulte = 0
         for mot in self.conf['insultes']:
@@ -278,7 +291,7 @@ class Bot(irc.bot.SingleServerIRCBot):
         self.do_privmsg(connection, auteur, "&carrement! <x> : envoie un /part dans "+ ", ".join(self.conf['chans']) +" et se reconnecte x secondes après, par défaut 10")
         self.do_privmsg(connection, auteur, "&exit : deconnecte le bot")
     elif trouve == 0 and isAdmin == 0:
-        self.do_privmsg(connection, auteur, "Ho !!! Je suis un bot !!!! Et vous n'etes pas admin !" + auteur)
+        self.do_privmsg(connection, auteur, "Ho !!! Je suis un bot !!!! Et vous n'etes pas admin ! " + auteur)
     elif trouve == 0 and isAdmin == 1:
         self.do_privmsg(connection, auteur, "Pas compris: " + message +", essayez aide ou help")
   def on_kick(self, connection, event):
