@@ -116,9 +116,11 @@ class Bot(irc.bot.SingleServerIRCBot):
               connection.action(chan, punch + auteur)
             break
         if insulte == 0:
-          if ("bonjour" in message.lower() or "salut" in message.lower()) and self.conf['nick'].lower() in message.lower():
+          if ("bonjour" in message.lower() or "salut" in message.lower()) and (self.conf['nick'].lower() in message.lower() or "chuck" in message.lower() or "norris" in message.lower() or "dieu" in message.lower()):
              if auteur == "otherbot":
                messageResp = "Salut copain !"
+             elif auteur == "rcastagnet":
+               messageResp = "Bonjour maitre !"
              else:
                messageResp = "Bonjour " + auteur
           elif "merci "+ self.conf['nick'].lower() in message.lower() or self.conf['nick'].lower()+" merci" in message.lower() or self.conf['nick'].lower()+": merci" in message.lower():
@@ -131,24 +133,23 @@ class Bot(irc.bot.SingleServerIRCBot):
                 messageResp = reponseArr[randint(0,len(reponseArr)-1)].replace('$auteur$',auteur)
                 reponseOK = 1
             if reponseOK == 0:
-              essai = randint(1,10)
-              if essai > 8:
-                messageResp = "Je n'ai pas compris."
-              elif essai > 6:
-                messageResp = "C'est pas faux."
-              elif  essai > 4:
-                messageResp = "lol"
+              #essai = randint(1,10)
+              #if essai > 8:
+              #  messageResp = "Je n'ai pas compris."
+              #elif essai > 6:
+              #  messageResp = "C'est pas faux."
+              #elif  essai > 4:
+              #  messageResp = "lol"
+              action = randint(0,len(self.conf['facts']))-1
+              facts = self.conf['facts'][action]
+              self.do_privmsg(connection, chan, facts)
 
       else:
         for mot, reponse in self.conf['motcle'].items():
           if mot in message.lower():
             reponseArr=reponse.split('|||')
             messageResp = reponseArr[randint(0,len(reponseArr)-1)].replace('$auteur$',auteur)
-        if "chuck" in message.lower() or "norris" in message.lower() or "dieu" in message.lower():
-          action = randint(0,len(self.conf['facts']))-1
-          facts = self.conf['facts'][action]
-          #connection.action(chan, facts)
-          self.do_privmsg(connection, chan, facts)
+
       #print ("messageResp Avant Anti spam : " + messageResp)
       diffSpam = round(time.time() - self.lastAntiSpam)
       #self.print_to_out("debug", self.conf['nick'], auteur, "time.time() : " + str(time.time()))
