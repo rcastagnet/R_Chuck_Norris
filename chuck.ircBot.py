@@ -17,7 +17,7 @@ class Bot(irc.bot.SingleServerIRCBot):
     self.config = configparser.ConfigParser()
     self.getConfig()
     irc.bot.SingleServerIRCBot.__init__(self, [("irc.srvc.cvf", 6667)],
-                                       self.conf['nick'], "Je suis un bot super sympa.")
+                                       self.conf['nick'], "Je suis Chuck Norris.")
     irc.client.ServerConnection.buffer_class = irc.buffer.LenientDecodingLineBuffer
     self.print_to_out ("start", 'irc client', self.configfile, "IRC Bot")
     self.lastmessage=""
@@ -38,6 +38,7 @@ class Bot(irc.bot.SingleServerIRCBot):
     self.conf['insultes'] = json.loads(self.config.get('config','insultes'))
     self.conf['punch'] = json.loads(self.config.get('config','punch'))
     self.conf['admins'] = json.loads(self.config.get('config','admins'))
+    self.conf['facts'] = json.loads(self.config.get('config','facts'))
     self.premierrepeat = self.config.get('config','premierrepeat')
     self.deuxiemerepeat = self.config.get('config','deuxiemerepeat')
     itemsmotcle = self.config.items('motcle')
@@ -88,7 +89,7 @@ class Bot(irc.bot.SingleServerIRCBot):
         if 1 == randint(1,6): 
           time.sleep(sleepTime)
           self.do_privmsg(connection, chan, "ok trolled !")
-      elif self.conf['nick'].lower() in  message.lower():
+      elif self.conf['nick'].lower() in  message.lower() or "chuck" in message.lower() or "norris" in message.lower():
         insulte = 0
         for mot in self.conf['insultes']:
           if mot in message.lower() :
@@ -130,6 +131,11 @@ class Bot(irc.bot.SingleServerIRCBot):
           if mot in message.lower():
             reponseArr=reponse.split('|||')
             messageResp = reponseArr[randint(0,len(reponseArr)-1)].replace('$auteur$',auteur)
+        if "chuck" in message.lower() or "norris" in message.lower() or "dieu" in message.lower():
+          action = randint(0,len(self.conf['facts']))-1
+          facts = self.conf['facts'][action]
+          #connection.action(chan, facts)
+          self.do_privmsg(connection, chan, facts)
       #print ("messageResp Avant Anti spam : " + messageResp)
       diffSpam = round(time.time() - self.lastAntiSpam)
       #self.print_to_out("debug", self.conf['nick'], auteur, "time.time() : " + str(time.time()))
