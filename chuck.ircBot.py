@@ -16,7 +16,7 @@ class Bot(irc.bot.SingleServerIRCBot):
   def __init__(self):
     self.config = configparser.ConfigParser()
     self.getConfig()
-    irc.bot.SingleServerIRCBot.__init__(self, [("irc.srvc.cvf", 6667)],
+    irc.bot.SingleServerIRCBot.__init__(self, [("irc.si.mbs", 6667)],
                                        self.conf['nick'], "Je suis Chuck Norris.")
     irc.client.ServerConnection.buffer_class = irc.buffer.LenientDecodingLineBuffer
     self.print_to_out ("start", 'irc client', self.configfile, "IRC Bot")
@@ -95,7 +95,7 @@ class Bot(irc.bot.SingleServerIRCBot):
           if mot in message.lower() :
             insulte = 1
             action = randint(0,len(self.conf['punch']))-1
-            messageResp = "Romain est homme formidable, " + auteur +" !"
+            messageResp = "Romain est un homme formidable, " + auteur +" !"
             punch = self.conf['punch'][action].replace('$auteur$', auteur)
             if punch != self.conf['punch'][action]:
               self.do_privmsg(connection, chan, punch)
@@ -105,7 +105,11 @@ class Bot(irc.bot.SingleServerIRCBot):
       elif self.conf['nick'].lower() in  message.lower() or "chuck" in message.lower() or "norris" in message.lower():
         insulte = 0
         for mot in self.conf['insultes']:
-          if mot in message.lower() :
+          if mot in message.lower() and auteur == "rcastagnet":
+            insulte = 1
+            messageResp = "Excuse moi mon maitre..."
+            break
+          elif mot in message.lower() :
             insulte = 1
             action = randint(0,len(self.conf['punch']))-1
             messageResp = "Merci de rester poli " + auteur +" !"
