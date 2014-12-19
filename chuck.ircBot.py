@@ -90,11 +90,15 @@ class Bot(irc.bot.SingleServerIRCBot):
           time.sleep(sleepTime)
           self.do_privmsg(connection, chan, "ok trolled !")
       elif "romain" in message.lower() or "castagne" in message.lower():
+        insulte = 0
         for mot in self.conf['insultes']:
           if mot in message.lower() :
-            messageResp = "Romain est un homme formidable, " + auteur +" !"
+            insulte = 1
+            messageResp = "Romain est un homme formidable, attention " + auteur +" !"
             break
-      elif self.conf['nick'].lower() in  message.lower() or "chuck" in message.lower() or "norris" in message.lower():
+        if insulte == 0 and (self.conf['nick'].lower() in  message.lower() or "chuck" in message.lower() or "norris" in message.lower()):
+          messageResp = "Romain est mon dieu !"
+      elif (self.conf['nick'].lower() in  message.lower() or "chuck" in message.lower() or "norris" in message.lower()):
         insulte = 0
         for mot in self.conf['insultes']:
           if mot in message.lower() and auteur == "rcastagnet":
@@ -112,7 +116,7 @@ class Bot(irc.bot.SingleServerIRCBot):
               connection.action(chan, punch + auteur)
             break
         if insulte == 0:
-          if ("bonjour" in message.lower() or "salut" in message.lower()) and (self.conf['nick'].lower() in message.lower() or "chuck" in message.lower() or "norris" in message.lower() or "dieu" in message.lower()):
+          if ("bonjour" in message.lower() or "salut" in message.lower()) and (self.conf['nick'].lower() in message.lower() or "chuck" in message.lower() or "norris" in message.lower() ):
              if auteur == "otherbot":
                messageResp = "Salut copain !"
              elif auteur == "rcastagnet":
